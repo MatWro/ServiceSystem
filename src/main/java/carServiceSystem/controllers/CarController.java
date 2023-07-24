@@ -1,4 +1,4 @@
-package carServiceSystem.car;
+package carServiceSystem.controllers;
 
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
@@ -7,37 +7,36 @@ import java.net.URI;
 import java.util.List;
 import java.util.Optional;
 
+import carServiceSystem.entity.Car;
+import carServiceSystem.entity.CarNotFoundException;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import carServiceSystem.jpa.CarRepository;
+import carServiceSystem.repository.CarRepository;
 
 import jakarta.validation.Valid;
 
 @RestController
-public class CarJpaResource {
+public class CarController {
 
     private CarRepository carRepository;
 
-    public CarJpaResource(CarRepository carRepository){
+    public CarController(CarRepository carRepository){
         this.carRepository = carRepository;
     }
 
 
 
     @GetMapping("/jpa/Car")
-    public List<Car> retrieveAllUsers() {
+    public List<Car> retrieveAllCars() {
         return carRepository.findAll();
     }
-    @GetMapping("/jpa/cars/{id}")
-    public EntityModel<Car> retrieveUser(@PathVariable int id) {
+
+    @GetMapping("/jpa/car/{id}")
+    public EntityModel<Car> retrieveUser(@PathVariable long id) {
         Optional<Car> user = carRepository.findById(id);
 
         if(user.isEmpty())
@@ -45,8 +44,8 @@ public class CarJpaResource {
 
         EntityModel<Car> entityModel = EntityModel.of(user.get());
 
-        WebMvcLinkBuilder link =  linkTo(methodOn(this.getClass()).retrieveAllUsers());
-        entityModel.add(link.withRel("all-users"));
+        WebMvcLinkBuilder link =  linkTo(methodOn(this.getClass()).retrieveAllCars());
+        entityModel.add(link.withRel("all-cars"));
 
         return entityModel;
     }
@@ -64,5 +63,9 @@ public class CarJpaResource {
                 .toUri();
 
         return ResponseEntity.created(location).build();
+    }
+    @DeleteMapping("/jpa/car/{id}")
+    public void deleteUser(@PathVariable int id) {
+        carRepository.deleteById(Long.valueOf(id));
     }
 }

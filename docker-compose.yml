@@ -1,0 +1,23 @@
+#version: "3"
+#services:
+#  service-system:
+#    image: service-system
+#    ports:
+#      - "8081:8081"
+#    networks:
+#      - car_network
+#    depends_on:
+#      - mysqldb
+#
+#  mysqldb:
+#    image: mysql:8-oracle
+#    networks:
+#      - car_network
+#    environment:
+#      - MYSQL_ROOT_PASSWORD=Kaktus123
+#      - MYSQL_DATABASE=service_Data_Base
+#      - MYSQL_USER=ServisMaster
+#      - MYSQL_PASSWORD=Kaktus123
+#
+#networks:
+#  car_network:

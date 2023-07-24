@@ -1,4 +1,4 @@
-package carServiceSystem.car;
+package carServiceSystem.entity;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;
