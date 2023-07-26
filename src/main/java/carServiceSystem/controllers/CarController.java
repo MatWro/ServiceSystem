@@ -1,14 +1,13 @@
 package carServiceSystem.controllers;
 
-import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
-import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
+
 
 import java.net.URI;
 import java.util.List;
 import java.util.Optional;
 
 import carServiceSystem.entity.Car;
-import carServiceSystem.entity.CarNotFoundException;
+import carServiceSystem.exceptions.CarNotFoundException;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;
 import org.springframework.http.ResponseEntity;
@@ -18,6 +17,9 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import carServiceSystem.repository.CarRepository;
 
 import jakarta.validation.Valid;
+
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 @RestController
 public class CarController {
@@ -30,12 +32,12 @@ public class CarController {
 
 
 
-    @GetMapping("/jpa/Car")
+    @GetMapping("/cars")
     public List<Car> retrieveAllCars() {
         return carRepository.findAll();
     }
 
-    @GetMapping("/jpa/car/{id}")
+    @GetMapping("car/{id}")
     public EntityModel<Car> retrieveUser(@PathVariable long id) {
         Optional<Car> user = carRepository.findById(id);
 
@@ -51,7 +53,7 @@ public class CarController {
     }
 
 
-    @PostMapping("/jpa/Car")
+    @PostMapping("/car/addCar")
     public ResponseEntity<Car> createCar(@Valid @RequestBody Car car) {
 
 
@@ -64,8 +66,10 @@ public class CarController {
 
         return ResponseEntity.created(location).build();
     }
-    @DeleteMapping("/jpa/car/{id}")
+    @DeleteMapping("/car/{id}")
     public void deleteUser(@PathVariable int id) {
         carRepository.deleteById(Long.valueOf(id));
     }
+
+
 }

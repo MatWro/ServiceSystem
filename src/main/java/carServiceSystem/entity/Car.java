@@ -31,4 +31,13 @@ public class Car {
     @Column(length = 5)
     private float engine_Capacity;
 
+//    @OneToMany(cascade = CascadeType.ALL)
+//    @JoinColumn(name = "fk_car_id", referencedColumnName = "id")
+//    private List<FixRequest> fixRequest;
+//
+//    @OneToOne
+//    @JoinColumn(name = "user_id")
+//    private User user;
+
+
 }
